@@ -1,0 +1,25 @@
+*{
+    user-select: none;
+}
+img{
+    height:200px;
+    width: 99.4%;
+    border-radius: 4px;
+}
+.left{
+    position: relative;
+    bottom: 120px;
+}
+.right{
+    position: relative;
+    bottom: 120px;
+    left: 269px;
+}
+.trash{
+    position: relative;
+    top: 330px;
+    left: 250px;
+}
+fa-icon{
+    cursor: pointer;
+}

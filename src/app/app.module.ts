@@ -3,14 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DishesComponent } from './dishes/dishes.component';
+import { DishComponent } from './dish/dish.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AddingDishComponent } from './adding-dish/adding-dish.component'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DishesComponent,
+    DishComponent,
+    AddingDishComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
