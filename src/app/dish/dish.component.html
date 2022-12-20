@@ -10,6 +10,7 @@
                 <p style="margin:0px 10px 0px 10px ; font-size: large;">{{ordered}}</p>
                 <fa-icon [icon]="faPlusCircle" size="lg" (click)="order()" [ngStyle]="{'visibility': max_amount==0 ?'hidden' : 'visible' }"></fa-icon>
             </div>
+            <app-rating style="display: flex;justify-content: space-around;align-items: center;" (sendRatingEvent)="getRating($event)"></app-rating>
             <p *ngIf="max_amount==0" style="font-weight:bold">[Niedostępne] {{name}}</p>
             <p *ngIf="max_amount>0" [ngStyle]="{'font-weight': max_amount<=3 ?'bold' : 'normal' }">Nazwa: {{name}}</p>
             <p>Kuchnia: {{origin}}</p>

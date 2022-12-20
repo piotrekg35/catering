@@ -1,0 +1,16 @@
+<form>
+    <div class="form-group">
+      <label for="name">Nazwa</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="filtered_name" [ngModelOptions]="{standalone: true} " (keyup)="sendFilterString()">
+      <label for="origin">Kuchnia</label>
+      <input type="text" class="form-control" id="origin" [(ngModel)]="filtered_origin" [ngModelOptions]="{standalone: true} " (keyup)="sendFilterString()">
+      <label for="type">Typ</label>
+      <input type="text" class="form-control" id="type" [(ngModel)]="filtered_type" [ngModelOptions]="{standalone: true} " (keyup)="sendFilterString()">
+      <label for="ingridients">Składniki</label>
+      <input type="text" class="form-control" id="ingridients" [(ngModel)]="filtered_ingridients" [ngModelOptions]="{standalone: true} " (keyup)="sendFilterString()">
+      <label for="price">Maksymalna cena</label>
+      <input type="text" class="form-control" id="price" [(ngModel)]="filtered_price" [ngModelOptions]="{standalone: true} " (keyup)="sendFilterString()">
+      <label for="rating">Minimalna ocena</label>
+      <input type="text" class="form-control" id="rating" [(ngModel)]="filtered_rating" [ngModelOptions]="{standalone: true} " (keyup)="sendFilterString()">
+    </div>
+  </form>

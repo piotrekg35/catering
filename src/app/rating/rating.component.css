@@ -1,0 +1,17 @@
+p{
+    position: relative;
+    flex-grow: 0.5;
+}
+button{
+    padding: 3px;
+    position: relative;
+}
+form{
+  position: relative;
+  flex-grow: 0.5;
+}
+input{
+  padding: 3px 3px;
+  width:20px;
+  height: 30px;
+}

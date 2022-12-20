@@ -25,9 +25,11 @@ export class DishComponent implements OnChanges{
   photoIndex:number=0;
   photoLink:String="";
   ordered:number=0;
+  rating:number=0;
   @Output() orderEvent = new EventEmitter<boolean>();
   @Output() resignEvent = new EventEmitter<boolean>();
   @Output() deleteEvent = new EventEmitter<DishComponent>();
+  @Output() updateRatingEvent = new EventEmitter<Array<string>>();
 
   
   ngOnChanges():void{
@@ -61,5 +63,9 @@ export class DishComponent implements OnChanges{
   }
   deleteDish():void{
     this.deleteEvent.emit(this);
+  }
+  getRating(n:number){
+    this.rating=n;
+    this.updateRatingEvent.emit([String(this.name),String(this.rating)])
   }
 }

@@ -1,8 +1,12 @@
 <p style="text-align: center;" [ngStyle]="{'background-color': ordered>10 ? 'dodgerblue' : 'orange' }">Liczba zamówionych posiłków: {{ordered}}</p>
 <app-adding-dish (addDishEvent)="addDish($event)"></app-adding-dish>
+<app-filtering (sendFilterStringEvent)="getFilterString($event)"></app-filtering>
 <div class="row">
-    <div class="col-sm-6 col-md-6 col-xl-3" style="margin-bottom: 10px;padding: 0px;" *ngFor="let dish of dish_list;">
-    <app-dish (orderEvent)="order()" (resignEvent)="resign()" (deleteEvent)="deleteDish(dish.name)" style="display:flex;justify-content: center;"
+    <div class="col-sm-6 col-md-6 col-xl-3" style="margin-bottom: 10px;padding: 0px;" *ngFor="let dish of dish_list | filterName : filtered_name 
+    | filterOrigin : filtered_origin | filterType : filtered_type | filterIngridients : filtered_ingridients | filterPrice : filtered_price
+    | filterRating : filtered_rating;">
+    <app-dish (orderEvent)="order()" (resignEvent)="resign()" (deleteEvent)="deleteDish(dish.name)" (updateRatingEvent)="updateRating($event)"
+    style="display:flex;justify-content: center;flex-wrap: wrap;"
         [name]="dish.name"
         [origin]="dish.origin"
         [type]="dish.type"

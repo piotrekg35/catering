@@ -9,6 +9,12 @@ import { Component} from '@angular/core';
 export class DishesComponent{
   dish_list:Array<Dish>=new Array<Dish>;
   ordered:number=0;
+  filtered_name:string="";
+  filtered_origin:string="";
+  filtered_type:string="";
+  filtered_ingridients:string="";
+  filtered_price:number=0;
+  filtered_rating:number=0;
 
   constructor(){
     let dishestext:String="Pierogi z mięsem\npolska\nmięsne\nmąka, jajka, mięso, olej, sól, pieprz\n20\n15\nSmaczne\nhttps://static.fajnegotowanie.pl/media/uploads/media_image/original/przepis/7033/pierogi-z-miesem-wieprzowym.jpg,https://www.zajadam.pl/wp-content/uploads/2014/10/Pierogi-z-miesem-3.jpg,https://kulinarnapolska.org/wp-content/uploads/2021/04/pierogi-z-miesem-przepis-2.jpg";
@@ -49,11 +55,27 @@ export class DishesComponent{
     this.dish_list.splice(idx,1);
     this.findCheapExp();
   }
+  updateRating(arr:Array<string>):void{
+    let dish2up:Dish|undefined=this.dish_list.find((a)=>a.name==arr[0]);
+    if(dish2up===undefined)return;
+    let n = Number(arr[1]);
+    if(!n)return;
+    dish2up.rating=n;
+    this.findCheapExp();
+  }
   addDish(arr:Array<string>){
     let links:Array<String>=arr[7].split(",");
     let new_dish:Dish=new Dish(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],links)
     this.dish_list.push(new_dish);
     this.findCheapExp();
+  }
+  getFilterString(arr:Array<string>):void{
+    this.filtered_name=arr[0];
+    this.filtered_origin=arr[1];
+    this.filtered_type=arr[2];
+    this.filtered_ingridients=arr[3];
+    this.filtered_price=Number(arr[4]);
+    this.filtered_rating=Number(arr[5]);
   }
 }
 class Dish{
@@ -67,6 +89,7 @@ class Dish{
   link_to_photos:Array<String>=[];
   isExp:boolean=false;
   isCheap:boolean=false;
+  rating:number=0;
   constructor(n:String,o:String,t:String,i:String,m:String,p:String,d:String,l:Array<String>){
     this.name=n;
     this.origin=o;
