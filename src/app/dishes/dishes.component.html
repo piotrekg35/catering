@@ -7,8 +7,8 @@
     | filterRating : filtered_rating;">
     <app-dish (orderEvent)="order()" (resignEvent)="resign()" (deleteEvent)="deleteDish(dish.name)" (updateRatingEvent)="updateRating($event)"
     style="display:flex;justify-content: center;flex-wrap: wrap;"
-        [name]="dish.name"
-        [origin]="dish.origin"
+        [name]="dish.name | toCapital"
+        [origin]="dish.origin | toCapital"
         [type]="dish.type"
         [ingridients]="dish.ingridients"
         [max_amount]="dish.max_amount"

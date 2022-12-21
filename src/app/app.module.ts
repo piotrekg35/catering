@@ -16,6 +16,7 @@ import { FilterTypePipe } from './Pipes/filter-type.pipe';
 import { FilterIngridientsPipe } from './Pipes/filter-ingridients.pipe';
 import { FilterPricePipe } from './Pipes/filter-price.pipe';
 import { FilterRatingPipe } from './Pipes/filter-rating.pipe';
+import { ToCapitalPipe } from './Pipes/to-capital.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FilterRatingPipe } from './Pipes/filter-rating.pipe';
     FilterTypePipe,
     FilterIngridientsPipe,
     FilterPricePipe,
-    FilterRatingPipe
+    FilterRatingPipe,
+    ToCapitalPipe
   ],
   imports: [
     BrowserModule,
