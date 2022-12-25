@@ -1,12 +1,13 @@
 <p style="text-align: center;" [ngStyle]="{'background-color': ordered>10 ? 'dodgerblue' : 'orange' }">Liczba zamówionych posiłków: {{ordered}}</p>
-<app-adding-dish (addDishEvent)="addDish($event)"></app-adding-dish>
+<app-pagination [number_of_dishes]="dish_list.length" (stronaEvent)="getPag($event)"></app-pagination>
 <app-filtering (sendFilterStringEvent)="getFilterString($event)"></app-filtering>
 <div class="row">
     <div class="col-sm-6 col-md-6 col-xl-3" style="margin-bottom: 10px;padding: 0px;" *ngFor="let dish of dish_list | filterName : filtered_name 
     | filterOrigin : filtered_origin | filterType : filtered_type | filterIngridients : filtered_ingridients | filterPrice : filtered_price
-    | filterRating : filtered_rating;">
-    <app-dish (orderEvent)="order()" (resignEvent)="resign()" (deleteEvent)="deleteDish(dish.name)" (updateRatingEvent)="updateRating($event)"
+    | filterRating : filtered_rating | pagination : page : elements_on_page : dish_list.length ;">
+    <app-dish (orderEvent)="order()" (resignEvent)="resign()"
     style="display:flex;justify-content: center;flex-wrap: wrap;"
+        [id]="dish.id"
         [name]="dish.name | toCapital"
         [origin]="dish.origin | toCapital"
         [type]="dish.type"
@@ -17,6 +18,7 @@
         [link_to_photos]="dish.link_to_photos"
         [isExp]="dish.isExp"
         [isCheap]="dish.isCheap"
+        [rating]="dish.rating"
     ></app-dish>
 </div>
 </div>

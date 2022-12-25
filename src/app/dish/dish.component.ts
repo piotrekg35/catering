@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -6,12 +8,13 @@ import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle, faTrash} fr
   templateUrl: './dish.component.html',
   styleUrls: ['./dish.component.css']
 })
-export class DishComponent implements OnChanges{
+export class DishComponent{
   faChevronLeft=faChevronLeft;
   faChevronRight=faChevronRight;
   faPlusCircle=faPlusCircle;
   faMinusCircle=faMinusCircle;
   faTrash=faTrash;
+  @Input() id:number=0;
   @Input() name:String="";
   @Input() origin:String="";
   @Input() type:String="";
@@ -22,20 +25,24 @@ export class DishComponent implements OnChanges{
   @Input() link_to_photos:Array<String>=[];
   @Input() isExp:boolean=false;
   @Input() isCheap:boolean=false;
+  @Input() rating:number=0;
   photoIndex:number=0;
   photoLink:String="";
   ordered:number=0;
-  rating:number=0;
   @Output() orderEvent = new EventEmitter<boolean>();
   @Output() resignEvent = new EventEmitter<boolean>();
   @Output() deleteEvent = new EventEmitter<DishComponent>();
   @Output() updateRatingEvent = new EventEmitter<Array<string>>();
 
+
+  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router){}
   
-  ngOnChanges():void{
+  ngOnInit():void{
     this.photoLink=this.link_to_photos[this.photoIndex];
   }
-
+  goToDetails(){
+    this.router.navigate(['/produkt', this.id]);
+  }
   nextImg():void{
     if(this.photoIndex<this.link_to_photos.length-1)
       this.photoIndex++;
@@ -62,7 +69,8 @@ export class DishComponent implements OnChanges{
     }
   }
   deleteDish():void{
-    this.deleteEvent.emit(this);
+    const daneRef = this.db.object('dishes/'+String(this.id));
+    daneRef.remove();
   }
   getRating(n:number){
     this.rating=n;

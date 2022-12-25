@@ -17,6 +17,27 @@ import { FilterIngridientsPipe } from './Pipes/filter-ingridients.pipe';
 import { FilterPricePipe } from './Pipes/filter-price.pipe';
 import { FilterRatingPipe } from './Pipes/filter-rating.pipe';
 import { ToCapitalPipe } from './Pipes/to-capital.pipe';
+import { HomeComponent } from './home/home.component';
+import { CartComponent } from './cart/cart.component';
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireDatabaseModule} from '@angular/fire/compat/database';
+import { DishDetailsComponent } from './dish-details/dish-details.component';
+import { CommentComponent } from './comment/comment.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationPipe } from './Pipes/pagination.pipe';
+
+const environment = {
+  firebase:{
+  apiKey: "AIzaSyAPT0oI3tanDZOLqBM5LUWUZM6xqnnwolg",
+  authDomain: "restaurantabc.firebaseapp.com",
+  projectId: "restaurantabc",
+  storageBucket: "restaurantabc.appspot.com",
+  messagingSenderId: "1020683998852",
+  appId: "1:1020683998852:web:7fdba5059026303e3514d1",
+  databaseURL: "https://restaurantabc-default-rtdb.europe-west1.firebasedatabase.app"
+}
+};
+
 
 @NgModule({
   declarations: [
@@ -32,13 +53,21 @@ import { ToCapitalPipe } from './Pipes/to-capital.pipe';
     FilterIngridientsPipe,
     FilterPricePipe,
     FilterRatingPipe,
-    ToCapitalPipe
+    ToCapitalPipe,
+    HomeComponent,
+    CartComponent,
+    DishDetailsComponent,
+    CommentComponent,
+    PaginationComponent,
+    PaginationPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]

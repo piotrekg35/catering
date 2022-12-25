@@ -1,9 +1,5 @@
-<button type="button" class="btn btn-primary"(click)="openModal()">Dodaj danie</button>
-<div class="modal modal-hidden">
-    <div class="modal-container">
-      <div class="modal-body">
-        <p>{{message}}<p>
-            <form>
+    <p>{{message}}<p>
+    <form >
                 <div class="form-group">
                   <label for="name">Nazwa</label>
                   <input type="text" class="form-control" id="name" [(ngModel)]="name" [ngModelOptions]="{standalone: true}">
@@ -33,12 +29,9 @@
                     <input type="text" class="form-control" id="description" [(ngModel)]="description" [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class="form-group">
-                    <label for="link_to_photos">Link do zdjęć (po przecinku)</label>
+                    <label for="link_to_photos">Link do zdjęć (po przecinku, minimum 2 zdjęcia)</label>
                     <input type="text" class="form-control" id="link_to_photos" [(ngModel)]="link_to_photos" [ngModelOptions]="{standalone: true}">
                 </div>
-            </form>
-        <button type="button" class="btn btn-light" style="margin: 5px;" (click)="closeModal()">Zamknij</button>
-        <button type="button" class="btn btn-primary" style="margin: 5px;" (click)="addDish()">Dodaj</button>
-      </div>
-    </div>
- </div>
+    </form>
+    <button type="button" class="btn btn-light" style="margin: 5px;" (click)="clean()">Wyczyść</button>
+    <button type="button" class="btn btn-dark" style="margin: 5px;" (click)="addDish()">Dodaj</button>

@@ -1,1 +1,19 @@
-<app-dishes></app-dishes>
+<nav class="navbar navbar-expand navbar-dark bg-dark navbar sticky-top">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/" routerLinkActive="active">Strona Głowna</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/menu" routerLinkActive="active">Menu</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/dodaj" routerLinkActive="active">Dodaj</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/koszyk" routerLinkActive="active">Koszyk</a>
+      </li>
+      </ul>
+    </div>
+</nav>
+<router-outlet></router-outlet>
