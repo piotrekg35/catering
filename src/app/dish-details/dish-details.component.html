@@ -16,7 +16,7 @@
     <p *ngIf="max_amount>0" [ngStyle]="{'font-weight': max_amount<=3 ?'bold' : 'normal' }">Nazwa: {{name}}</p>
     <p *ngIf="rating==0">Brak ocen</p>
     <p *ngIf="rating>0">Ocena: {{rating}}</p>
-    <p>Cena: {{price}} USD</p>
+    <p>Cena: {{price| currency : curr}}</p>
     <p>Kuchnia: {{origin}}</p>
     <p>Składniki: {{ingridients}}</p>
     <p>Opis: {{description}}</p>

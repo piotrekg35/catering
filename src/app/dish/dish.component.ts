@@ -1,7 +1,10 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { CartService, DishGeneral } from '../Services/cart.service';
+import { CurrencyService } from '../Services/currency.service';
 
 @Component({
   selector: 'app-dish',
@@ -29,16 +32,18 @@ export class DishComponent{
   photoIndex:number=0;
   photoLink:String="";
   ordered:number=0;
-  @Output() orderEvent = new EventEmitter<boolean>();
-  @Output() resignEvent = new EventEmitter<boolean>();
-  @Output() deleteEvent = new EventEmitter<DishComponent>();
-  @Output() updateRatingEvent = new EventEmitter<Array<string>>();
 
-
-  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router){}
+  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService){}
   
   ngOnInit():void{
     this.photoLink=this.link_to_photos[this.photoIndex];
+
+    let d=this.cs.reserved.filter(a=>a.id===this.id);
+    if(d.length===0)this.ordered=0;
+    else{
+      let idx:number=this.cs.reserved.indexOf(d[0]);
+      this.ordered=this.cs.reserved[idx].ordered;
+    }
   }
   goToDetails(){
     this.router.navigate(['/produkt', this.id]);
@@ -58,22 +63,31 @@ export class DishComponent{
   order():void{
     this.max_amount--;
     this.ordered++;
-    this.orderEvent.emit(true);
+    this.cs.countObservable.next(++this.cs.count);
+    let d=this.cs.reserved.filter(a=>a.id===this.id);
+    if(d.length===0)this.cs.reserved.push(new DishGeneral(this.id,this.name,this.ordered,this.max_amount,this.price,this.link_to_photos));
+    else{
+      let idx:number=this.cs.reserved.indexOf(d[0]);
+      this.cs.reserved[idx].ordered=this.ordered;
+      this.cs.reserved[idx].max_amount=this.max_amount;
+    }
   }
   resign():void{
     if(this.ordered>0)
     {
       this.max_amount++;
       this.ordered--;
-      this.resignEvent.emit(true);
+      this.cs.countObservable.next(--this.cs.count);
+
+      let d=this.cs.reserved.filter(a=>a.id===this.id);
+      let idx:number=this.cs.reserved.indexOf(d[0]);
+      this.cs.reserved[idx].ordered=this.ordered;
+      this.cs.reserved[idx].max_amount=this.max_amount;
+      if(this.ordered===0)this.cs.reserved.splice(idx,1);
     }
   }
   deleteDish():void{
     const daneRef = this.db.object('dishes/'+String(this.id));
     daneRef.remove();
-  }
-  getRating(n:number){
-    this.rating=n;
-    this.updateRatingEvent.emit([String(this.name),String(this.rating)])
   }
 }

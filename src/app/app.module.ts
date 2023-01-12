@@ -25,6 +25,7 @@ import { DishDetailsComponent } from './dish-details/dish-details.component';
 import { CommentComponent } from './comment/comment.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PaginationPipe } from './Pipes/pagination.pipe';
+import { CurrencyPipe } from './Pipes/currency.pipe';
 
 const environment = {
   firebase:{
@@ -59,7 +60,8 @@ const environment = {
     DishDetailsComponent,
     CommentComponent,
     PaginationComponent,
-    PaginationPipe
+    PaginationPipe,
+    CurrencyPipe
   ],
   imports: [
     BrowserModule,

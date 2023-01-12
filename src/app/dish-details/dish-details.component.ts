@@ -3,6 +3,8 @@ import { AngularFireDatabase} from '@angular/fire/compat/database';
 import { ActivatedRoute, Router} from '@angular/router';
 import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle} from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
+import { CartService, DishGeneral } from '../Services/cart.service';
+import { CurrencyService } from '../Services/currency.service';
 
 @Component({
   selector: 'app-dish-details',
@@ -28,7 +30,7 @@ export class DishDetailsComponent {
   ordered:number=0;
   rating:number=0;
 
-  constructor(private db: AngularFireDatabase, private route: ActivatedRoute,private router:Router) {}
+  constructor(private db: AngularFireDatabase, private route: ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {;
@@ -47,6 +49,13 @@ export class DishDetailsComponent {
       this.link_to_photos=val.link_to_photos.split(",");
       this.photoLink=this.link_to_photos[this.photoIndex];
     })
+
+    let d=this.cs.reserved.filter(a=>a.id===this.id);
+    if(d.length===0)this.ordered=0;
+    else{
+      let idx:number=this.cs.reserved.indexOf(d[0]);
+      this.ordered=this.cs.reserved[idx].ordered;
+    }
   }
 
   nextImg():void{
@@ -64,12 +73,27 @@ export class DishDetailsComponent {
   order():void{
     this.max_amount--;
     this.ordered++;
+    this.cs.countObservable.next(++this.cs.count);
+    let d=this.cs.reserved.filter(a=>a.id===this.id);
+    if(d.length===0)this.cs.reserved.push(new DishGeneral(this.id,this.name,this.ordered,this.max_amount,this.price,this.link_to_photos));
+    else{
+      let idx:number=this.cs.reserved.indexOf(d[0]);
+      this.cs.reserved[idx].ordered=this.ordered;
+      this.cs.reserved[idx].max_amount=this.max_amount;
+    }
   }
   resign():void{
     if(this.ordered>0)
     {
       this.max_amount++;
       this.ordered--;
+      this.cs.countObservable.next(--this.cs.count);
+
+      let d=this.cs.reserved.filter(a=>a.id===this.id);
+      let idx:number=this.cs.reserved.indexOf(d[0]);
+      this.cs.reserved[idx].ordered=this.ordered;
+      this.cs.reserved[idx].max_amount=this.max_amount;
+      if(this.ordered===0)this.cs.reserved.splice(idx,1);
     }
   }
   goBack():void{

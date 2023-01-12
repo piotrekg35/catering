@@ -1,1 +1,13 @@
-<p>cart works!</p>
+<p style="font-size:2em">Koszyk</p>
+<p *ngIf="reserved.length===0">Brak produktów w koszyku</p>
+<div style="border:2px black solid;border-radius: 10px; display: flex;margin:10px 0px;"*ngFor="let r of reserved">
+<img [src]="r.link_to_photos[0]" style="height: 200px;width: 200px;border-radius: 8px;">
+    <div>
+        <p style="font-size:1.2em">{{r.name}}</p>
+        <p style="font-size:1.2em">Ilość: {{r.ordered}}</p>
+        <p style="font-size:1.2em">Cena: {{r.price| currency : curr}}</p>   
+    </div>
+</div>
+<p *ngIf="reserved.length!==0" style="font-size:1.6em">Do zapłaty: {{getPriceSum()| currency : curr}}</p>
+<button type="button" class="btn btn-dark" style="margin: 5px;" *ngIf="reserved.length!==0">Zapłać</button>
+
