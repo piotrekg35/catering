@@ -26,6 +26,10 @@ import { CommentComponent } from './comment/comment.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { PaginationPipe } from './Pipes/pagination.pipe';
 import { CurrencyPipe } from './Pipes/currency.pipe';
+import { RegisterComponent } from './register/register.component';
+import { LogInComponent } from './log-in/log-in.component';
+import { AdminViewComponent } from './admin-view/admin-view.component';
+import { PersistenceComponent } from './persistence/persistence.component';
 
 const environment = {
   firebase:{
@@ -61,7 +65,11 @@ const environment = {
     CommentComponent,
     PaginationComponent,
     PaginationPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    RegisterComponent,
+    LogInComponent,
+    AdminViewComponent,
+    PersistenceComponent
   ],
   imports: [
     BrowserModule,

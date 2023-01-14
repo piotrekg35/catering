@@ -5,12 +5,18 @@ import { AddingDishComponent } from './adding-dish/adding-dish.component'
 import { HomeComponent } from './home/home.component';
 import { CartComponent } from './cart/cart.component';
 import { DishDetailsComponent } from './dish-details/dish-details.component';
+import { RegisterComponent } from './register/register.component';
+import { LogInComponent } from './log-in/log-in.component';
+import { AdminViewComponent } from './admin-view/admin-view.component';
 
 const routes: Routes = [ 
   { path: 'menu', component: DishesComponent }, 
   { path: 'dodaj', component: AddingDishComponent },
   { path: 'koszyk', component: CartComponent },
   { path: 'produkt/:id', component: DishDetailsComponent },
+  { path: 'zarejestruj', component: RegisterComponent },
+  { path: 'zaloguj', component: LogInComponent },
+  { path: 'admin', component: AdminViewComponent },
   { path: '', component: HomeComponent } 
 ]
 
