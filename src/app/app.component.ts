@@ -16,7 +16,10 @@ export class AppComponent {
   ordered:number=0;
   isLoggedIn:boolean=false;
   userData: Observable<firebase.User|null>;
-  name:string=""; 
+  name:string="";
+  admin:boolean=false;
+  client:boolean=false;
+  manager:boolean=false; 
 
   constructor(private cs:CartService,private curr:CurrencyService,private angularFireAuth: AngularFireAuth, private rs:RolesService){
     this.userData = angularFireAuth.authState;
@@ -26,11 +29,16 @@ export class AppComponent {
         this.isLoggedIn=true;
         if(a.email)this.name=a.email.split('@')[0];
       }
-    })
+    });
+    this.rs.adminObservable.subscribe(a=>this.admin=a);
+    this.rs.clientObservable.subscribe(a=>this.client=a);
+    this.rs.managerObservable.subscribe(a=>this.manager=a);
   }
   logout():void{
     this.angularFireAuth.signOut();
-    this.rs.admin=this.rs.client=this.rs.manager=false;
+    this.rs.adminObservable.next(false);
+    this.rs.clientObservable.next(false);
+    this.rs.managerObservable.next(false);
     this.cs.count=0;
     this.cs.countObservable.next(0);
     this.cs.reservedObservable.next([]);

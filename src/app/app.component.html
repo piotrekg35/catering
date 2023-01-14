@@ -8,12 +8,12 @@
             <a class="nav-link" routerLink="/menu" routerLinkActive="active">Menu</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active" *ngIf="admin">Admin</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="/dodaj" routerLinkActive="active">Dodaj</a>
+            <a class="nav-link" routerLink="/dodaj" routerLinkActive="active" *ngIf="manager">Dodaj</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="client">
           <a *ngIf="ordered===0" class="nav-link" routerLink="/koszyk" routerLinkActive="active">Koszyk</a>
           <a *ngIf="ordered!==0" [ngStyle]="{'background-color': ordered>10 ? 'dodgerblue' : 'orange' }" class="nav-link" routerLink="/koszyk" routerLinkActive="active">Koszyk({{ordered}})</a>
         </li>
@@ -24,14 +24,14 @@
     </div>
     <div class="navbar-collapse collapse w-300 order-3 dual-collapse2">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item" *ngIf="isLoggedIn===false">
+        <li class="nav-item" *ngIf="!isLoggedIn">
           <a class="nav-link" routerLink="/zarejestruj" routerLinkActive="active">Zarejestruj</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn===false">
+        <li class="nav-item" *ngIf="!isLoggedIn">
           <a class="nav-link" routerLink="/zaloguj" routerLinkActive="active">Zaloguj</a>
         </li>
-        <span class="navbar-text" *ngIf="isLoggedIn===true">{{name}}</span>
-        <form class="form-inline my-2 my-lg-0" *ngIf="isLoggedIn===true" style="margin: 0px 10px;">
+        <span class="navbar-text" *ngIf="isLoggedIn">{{name}}</span>
+        <form class="form-inline my-2 my-lg-0" *ngIf="isLoggedIn" style="margin: 0px 10px;">
           <button class="btn btn-outline-light my-2 my-sm-0" type="button" (click)="logout()">Wyloguj</button>
         </form>
       </ul>

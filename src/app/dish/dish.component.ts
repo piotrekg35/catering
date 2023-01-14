@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
 import { CartService, DishGeneral } from '../Services/cart.service';
 import { CurrencyService } from '../Services/currency.service';
+import { RolesService } from '../Services/roles.service';
 
 @Component({
   selector: 'app-dish',
@@ -32,8 +33,10 @@ export class DishComponent{
   photoIndex:number=0;
   photoLink:String="";
   ordered:number=0;
+  client:boolean=false;
+  manager:boolean=false;
 
-  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService){}
+  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService, private rs:RolesService){}
   
   ngOnInit():void{
     this.photoLink=this.link_to_photos[this.photoIndex];
@@ -46,8 +49,11 @@ export class DishComponent{
       this.ordered=r[idx].ordered;
     }
   });
+  this.rs.clientObservable.subscribe(a=>this.client=a);
+  this.rs.managerObservable.subscribe(a=>this.manager=a);
   }
   goToDetails(){
+    if(!this.client && !this.manager)return;
     this.router.navigate(['/produkt', this.id]);
   }
   nextImg():void{

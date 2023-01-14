@@ -21,12 +21,12 @@ export class LogInComponent {
   login(){
     this.angularFireAuth.signInWithEmailAndPassword(this.email_input,this.pwd_input)
     .then(()=>{
-      this.router.navigate(['/']);
-      let daneRef = this.db.list('users/'+this.email_input.replace(".","!",)).valueChanges();
+      let daneRef = this.db.object('users/'+this.email_input.replace(".","!")).valueChanges();
       daneRef.subscribe((val:any)=>{
-      this.rs.admin=val.admin;
-      this.rs.manager=val.manager;
-      this.rs.client=val.client;
+      this.rs.adminObservable.next(val.admin);
+      this.rs.managerObservable.next(val.manager);
+      this.rs.clientObservable.next(val.client);
+      this.router.navigate(['/']);
     });
     }).catch((a)=>{
       if (JSON.stringify(a).indexOf("auth/wrong-password")>=0)this.msg="Złe hasło.";
