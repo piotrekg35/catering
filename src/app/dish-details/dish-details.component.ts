@@ -50,12 +50,14 @@ export class DishDetailsComponent {
       this.photoLink=this.link_to_photos[this.photoIndex];
     })
 
-    let d=this.cs.reserved.filter(a=>a.id===this.id);
-    if(d.length===0)this.ordered=0;
-    else{
-      let idx:number=this.cs.reserved.indexOf(d[0]);
-      this.ordered=this.cs.reserved[idx].ordered;
-    }
+    this.cs.reservedObservable.subscribe(r=>{
+      let d=r.filter(a=>a.id===this.id);
+      if(d.length===0)this.ordered=0;
+      else{
+        let idx:number=r.indexOf(d[0]);
+        this.ordered=r[idx].ordered;
+      }
+    });
   }
 
   nextImg():void{
@@ -81,6 +83,7 @@ export class DishDetailsComponent {
       this.cs.reserved[idx].ordered=this.ordered;
       this.cs.reserved[idx].max_amount=this.max_amount;
     }
+    this.cs.reservedObservable.next(this.cs.reserved);
   }
   resign():void{
     if(this.ordered>0)
@@ -94,6 +97,7 @@ export class DishDetailsComponent {
       this.cs.reserved[idx].ordered=this.ordered;
       this.cs.reserved[idx].max_amount=this.max_amount;
       if(this.ordered===0)this.cs.reserved.splice(idx,1);
+      this.cs.reservedObservable.next(this.cs.reserved);
     }
   }
   goBack():void{

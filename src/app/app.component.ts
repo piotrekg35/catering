@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CartService } from './Services/cart.service';
 import { CurrencyService } from './Services/currency.service';
 import firebase from 'firebase/compat/app';
+import { RolesService } from './Services/roles.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   userData: Observable<firebase.User|null>;
   name:string=""; 
 
-  constructor(private cs:CartService,private curr:CurrencyService,private angularFireAuth: AngularFireAuth){
+  constructor(private cs:CartService,private curr:CurrencyService,private angularFireAuth: AngularFireAuth, private rs:RolesService){
     this.userData = angularFireAuth.authState;
     this.userData.subscribe(a=>{
       if(!a)this.isLoggedIn=false;
@@ -29,6 +30,11 @@ export class AppComponent {
   }
   logout():void{
     this.angularFireAuth.signOut();
+    this.rs.admin=this.rs.client=this.rs.manager=false;
+    this.cs.count=0;
+    this.cs.countObservable.next(0);
+    this.cs.reservedObservable.next([]);
+    this.cs.reserved.splice(0);
   }
   ngOnInit():void{
     this.cs.countObservable.subscribe(c=>this.ordered=c);

@@ -10,7 +10,7 @@ import { CurrencyService } from '../Services/currency.service';
 export class CartComponent {
   reserved:Array<DishGeneral>=[];
   constructor(private cs:CartService,public curr:CurrencyService){
-    this.reserved=cs.reserved;
+    cs.reservedObservable.subscribe(r=>this.reserved=r);
   }
   getPriceSum():number{
     return Math.round(this.reserved.reduce(function(prev,curr){return prev+curr.ordered*curr.price},0)*100)/100;

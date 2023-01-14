@@ -3,6 +3,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import firebase from 'firebase/compat/app';
 import { Router } from '@angular/router';
+import { RolesService } from '../Services/roles.service';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Component({
   selector: 'app-log-in',
@@ -11,18 +13,22 @@ import { Router } from '@angular/router';
 })
 export class LogInComponent {
 
-  userData: Observable<firebase.User|null>;
   email_input:string="";
   pwd_input:string="";
   msg:string="";
   
-  constructor(private angularFireAuth: AngularFireAuth,private router:Router) {
-    this.userData = angularFireAuth.authState;
-  }
+  constructor(private angularFireAuth: AngularFireAuth,private router:Router,private rs:RolesService,private db: AngularFireDatabase) {}
   login(){
     this.angularFireAuth.signInWithEmailAndPassword(this.email_input,this.pwd_input)
-    .then(()=>{this.router.navigate(['/']);})
-    .catch((a)=>{
+    .then(()=>{
+      this.router.navigate(['/']);
+      let daneRef = this.db.list('users/'+this.email_input.replace(".","!",)).valueChanges();
+      daneRef.subscribe((val:any)=>{
+      this.rs.admin=val.admin;
+      this.rs.manager=val.manager;
+      this.rs.client=val.client;
+    });
+    }).catch((a)=>{
       if (JSON.stringify(a).indexOf("auth/wrong-password")>=0)this.msg="Złe hasło.";
       else if (JSON.stringify(a).indexOf("auth/invalid-email")>=0)this.msg="Błędny email.";
       else if (JSON.stringify(a).indexOf("auth/user-not-found")>=0)this.msg="Użytkownik o podanym emailu nie istnieje.";

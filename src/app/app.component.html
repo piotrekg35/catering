@@ -30,11 +30,11 @@
         <li class="nav-item" *ngIf="isLoggedIn===false">
           <a class="nav-link" routerLink="/zaloguj" routerLinkActive="active">Zaloguj</a>
         </li>
-        <form class="form-inline my-2 my-lg-0" *ngIf="isLoggedIn===true">
+        <span class="navbar-text" *ngIf="isLoggedIn===true">{{name}}</span>
+        <form class="form-inline my-2 my-lg-0" *ngIf="isLoggedIn===true" style="margin: 0px 10px;">
           <button class="btn btn-outline-light my-2 my-sm-0" type="button" (click)="logout()">Wyloguj</button>
         </form>
       </ul>
-      <span class="navbar-text" *ngIf="isLoggedIn===true" style="margin: 0px 10px;">{{name}}</span>
     </div>
 </nav>
 <router-outlet></router-outlet>

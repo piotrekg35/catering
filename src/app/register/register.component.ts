@@ -18,9 +18,7 @@ export class RegisterComponent {
   register(){
     this.angularFireAuth.createUserWithEmailAndPassword(this.email_input,this.pwd_input)
     .then(()=>{
-      let dotidx=this.email_input.lastIndexOf(".");
-      let email4db=this.email_input.slice(0,dotidx)+"!"+this.email_input.slice(dotidx+1);
-      this.db.object('users/'+email4db).set({admin: false, manager: false, client: true});
+      this.db.object('users/'+this.email_input.replace(".","!")).set({admin: false, manager: false, client: true});
       this.router.navigate(['/']);
     }).catch((a)=>{
       if (JSON.stringify(a).indexOf("auth/invalid-email")>=0)this.msg="Błędny email.";
