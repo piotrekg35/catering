@@ -53,7 +53,6 @@ export class RatingComponent {
       daneRef1.update({ rating: this.new_rating });
     }
     else{
-      console.log(this.old_rating,this.count,this.new_rating)
       let newer_rating:number=(this.old_rating*this.count+this.new_rating)/(this.count+1);
       newer_rating=Math.round(newer_rating*10)/10;
       daneRef1.update({ rating: newer_rating });

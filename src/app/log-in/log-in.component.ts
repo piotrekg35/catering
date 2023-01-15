@@ -33,7 +33,7 @@ export class LogInComponent {
       else if (JSON.stringify(a).indexOf("auth/invalid-email")>=0)this.msg="Błędny email.";
       else if (JSON.stringify(a).indexOf("auth/user-not-found")>=0)this.msg="Użytkownik o podanym emailu nie istnieje.";
       else this.msg="Błędne dane. Spróbuj ponownie!";
-      }).finally(()=>{this.angularFireAuth.currentUser.then((a)=>console.log(a?.email));});
+      });
   }
   
 }

@@ -32,7 +32,6 @@ export class AppComponent {
       }
     });
     this.rs.adminObservable.subscribe(a=>this.admin=a);
-    this.rs.adminObservable.subscribe(console.log);
     this.rs.clientObservable.subscribe(a=>this.client=a);
     this.rs.managerObservable.subscribe(a=>this.manager=a);
   }
