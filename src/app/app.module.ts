@@ -30,6 +30,8 @@ import { RegisterComponent } from './register/register.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { AdminViewComponent } from './admin-view/admin-view.component';
 import { PersistenceComponent } from './persistence/persistence.component';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { UserElementComponent } from './user-element/user-element.component';
 
 const environment = {
   firebase:{
@@ -69,7 +71,9 @@ const environment = {
     RegisterComponent,
     LogInComponent,
     AdminViewComponent,
-    PersistenceComponent
+    PersistenceComponent,
+    UserManagementComponent,
+    UserElementComponent
   ],
   imports: [
     BrowserModule,
