@@ -25,8 +25,9 @@ export class AppComponent {
   constructor(private cs:CartService,private curr:CurrencyService,private angularFireAuth: AngularFireAuth, private rs:RolesService, private router:Router){
     this.userData = angularFireAuth.authState;
     this.userData.subscribe(a=>{
-      if(!a)this.isLoggedIn=false;
+      if(!a){this.isLoggedIn=false;rs.loggedObservable.next(false);}
       else {
+        rs.loggedObservable.next(true);
         this.isLoggedIn=true;
         if(a.email)this.name=a.email.split('@')[0];
       }
@@ -36,6 +37,7 @@ export class AppComponent {
     this.rs.managerObservable.subscribe(a=>this.manager=a);
   }
   logout():void{
+    this.rs.loggedObservable.next(false);
     this.angularFireAuth.signOut();
     this.rs.adminObservable.next(false);
     this.rs.clientObservable.next(false);

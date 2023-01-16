@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
+import { faL } from '@fortawesome/free-solid-svg-icons';
+import { RolesService } from '../Services/roles.service';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +15,14 @@ export class RegisterComponent {
   pwd_input:string="";
   msg:string="";
   
-  constructor(private angularFireAuth: AngularFireAuth,private router:Router, private db: AngularFireDatabase) {}
+  constructor(private angularFireAuth: AngularFireAuth,private router:Router, private db: AngularFireDatabase, private rs:RolesService) {}
   
   register(){
+    this.rs.loggedObservable.next(true);
+    this.rs.adminObservable.next(false);
+    this.rs.managerObservable.next(false);
+    this.rs.clientObservable.next(true);
+    this.rs.bannedObservable.next(false);
     this.angularFireAuth.createUserWithEmailAndPassword(this.email_input,this.pwd_input)
     .then(()=>{
       this.db.object('users/'+this.email_input.replace(".","!")).set({admin: false, manager: false, client: true, banned: false});

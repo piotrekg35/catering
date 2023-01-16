@@ -8,15 +8,17 @@ import { DishDetailsComponent } from './dish-details/dish-details.component';
 import { RegisterComponent } from './register/register.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { AdminViewComponent } from './admin-view/admin-view.component';
+import { AdminGuard } from './guard/admin.guard';
+import { ManagerGuard } from './guard/manager.guard';
 
 const routes: Routes = [ 
   { path: 'menu', component: DishesComponent }, 
-  { path: 'dodaj', component: AddingDishComponent },
+  { path: 'dodaj', component: AddingDishComponent, canActivate: [ManagerGuard] },
   { path: 'koszyk', component: CartComponent },
   { path: 'produkt/:id', component: DishDetailsComponent },
-  { path: 'zarejestruj', component: RegisterComponent },
-  { path: 'zaloguj', component: LogInComponent },
-  { path: 'admin', component: AdminViewComponent },
+  { path: 'zarejestruj', component: RegisterComponent},
+  { path: 'zaloguj', component: LogInComponent},
+  { path: 'admin', component: AdminViewComponent,  canActivate: [AdminGuard] },
   { path: '', component: HomeComponent } 
 ]
 

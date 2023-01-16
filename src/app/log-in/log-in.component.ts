@@ -19,6 +19,7 @@ export class LogInComponent {
   
   constructor(private angularFireAuth: AngularFireAuth,private router:Router,private rs:RolesService,private db: AngularFireDatabase) {}
   login(){
+    this.rs.loggedObservable.next(true);
     this.angularFireAuth.signInWithEmailAndPassword(this.email_input,this.pwd_input)
     .then(()=>{
       let daneRef = this.db.object('users/'+this.email_input.replace(".","!")).valueChanges();
