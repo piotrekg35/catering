@@ -9,15 +9,11 @@ import { RolesService } from '../Services/roles.service';
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
-  isLogged:boolean=false;
   constructor( private rs: RolesService, public router: Router, private angularFireAuth: AngularFireAuth){
-    rs.loggedObservable.subscribe(a=>this.isLogged=a);
   }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.log(this.isLogged);
-      if(!this.isLogged){this.router.navigate(['zaloguj']);return true;}
       return this.rs.adminObservable.pipe(map(state => 
       {
         if(state === true) { 
