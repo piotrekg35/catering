@@ -35,6 +35,7 @@ export class AppComponent {
     this.rs.adminObservable.subscribe(a=>this.admin=a);
     this.rs.clientObservable.subscribe(a=>this.client=a);
     this.rs.managerObservable.subscribe(a=>this.manager=a);
+    this.cs.countObservable.subscribe(c=>this.ordered=c);
   }
   logout():void{
     this.rs.loggedObservable.next(false);
@@ -47,9 +48,6 @@ export class AppComponent {
     this.cs.reservedObservable.next([]);
     this.cs.reserved.splice(0);
     this.router.navigate(['/']);
-  }
-  ngOnInit():void{
-    this.cs.countObservable.subscribe(c=>this.ordered=c);
   }
   changeCurrSettings():void{
     this.curr.InUSD=!this.curr.InUSD;
