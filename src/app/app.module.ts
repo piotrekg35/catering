@@ -32,6 +32,7 @@ import { AdminViewComponent } from './admin-view/admin-view.component';
 import { PersistenceComponent } from './persistence/persistence.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { UserElementComponent } from './user-element/user-element.component';
+import { DishManagementComponent } from './dish-management/dish-management.component';
 
 const environment = {
   firebase:{
@@ -73,7 +74,8 @@ const environment = {
     AdminViewComponent,
     PersistenceComponent,
     UserManagementComponent,
-    UserElementComponent
+    UserElementComponent,
+    DishManagementComponent
   ],
   imports: [
     BrowserModule,

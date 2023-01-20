@@ -10,6 +10,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { AdminViewComponent } from './admin-view/admin-view.component';
 import { AdminGuard } from './guard/admin.guard';
 import { ManagerGuard } from './guard/manager.guard';
+import { DishManagementComponent } from './dish-management/dish-management.component';
 
 const routes: Routes = [ 
   { path: 'menu', component: DishesComponent }, 
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'zarejestruj', component: RegisterComponent},
   { path: 'zaloguj', component: LogInComponent},
   { path: 'admin', component: AdminViewComponent,  canActivate: [AdminGuard] },
+  { path: 'edytuj/:id', component: DishManagementComponent,  canActivate: [ManagerGuard] },
   { path: '', component: HomeComponent } 
 ]
 

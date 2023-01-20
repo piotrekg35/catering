@@ -5,6 +5,7 @@ import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle} from '@fort
 import { Observable } from 'rxjs';
 import { CartService, DishGeneral } from '../Services/cart.service';
 import { CurrencyService } from '../Services/currency.service';
+import { RolesService } from '../Services/roles.service';
 
 @Component({
   selector: 'app-dish-details',
@@ -29,8 +30,13 @@ export class DishDetailsComponent {
   photoLink:string="";
   ordered:number=0;
   rating:number=0;
+  client:boolean=false;
+  manager:boolean=false;
 
-  constructor(private db: AngularFireDatabase, private route: ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService) {}
+  constructor(private db: AngularFireDatabase, private route: ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService,private rs:RolesService) {
+    rs.clientObservable.subscribe(a=>this.client=a);
+    rs.managerObservable.subscribe(a=>this.manager=a);
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {;
@@ -102,5 +108,9 @@ export class DishDetailsComponent {
   }
   goBack():void{
     this.router.navigate(['/menu']);
+  }
+  goToEdit(){
+    if(!this.client && !this.manager)return;
+    this.router.navigate(['/edytuj', this.id]);
   }
 }
