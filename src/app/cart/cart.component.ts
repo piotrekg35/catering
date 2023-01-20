@@ -27,7 +27,7 @@ export class CartComponent {
   }
   buy():void{
     this.reserved.forEach((a:DishGeneral)=>{
-      this.db.object("orders/"+this.email+"/"+this.date+"/"+a.id).set({amount:a.ordered});
+      this.db.object("orders/"+this.email+"/"+this.date).set({[a.id]:a.ordered});
       this.db.object("dishes/"+a.id).update({max_amount: a.max_amount})
     });
     this.cs.count==0;

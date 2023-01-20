@@ -1,9 +1,5 @@
-import cli from '@angular/cli';
 import { Component, Input } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import firebase from 'firebase/compat/app';
-import { Observable } from 'rxjs';
 import { RolesService } from '../Services/roles.service';
 
 @Component({
@@ -13,25 +9,30 @@ import { RolesService } from '../Services/roles.service';
 })
 export class RatingComponent {
   new_rating?:number;
-  nick:string="";
   title:string="";
   description:string="";
   date?:Date;
   count:number=0;
-  rating_list:any;
+  rating_list:Array<any>=[];
   @Input() id:number=0;
   @Input() old_rating:number=0;
-  userData: Observable<firebase.User|null>;
   msg:string="";
+  email:string="";
   banned:boolean=false;
   client:boolean=false;
   manager:boolean=false;
+  reviewed:boolean=false;
+  bought:boolean=false;
 
-  constructor(private db: AngularFireDatabase, private angularFireAuth: AngularFireAuth, rs:RolesService){
-    this.userData = angularFireAuth.authState;
-    this.userData.subscribe(a=>{
-      if(a)
-        if(a.email)this.nick=a.email.replace("!",".");
+  constructor(private db: AngularFireDatabase, rs:RolesService){
+    let orders=this.db.list("orders/"+this.email).valueChanges();
+    orders.subscribe(a=>{
+      a.forEach((b:any)=>{
+        let list:any = Object.values(b);
+        list.forEach((c:any)=>{
+          if(Object.keys(c)[0]==String(this.id))this.bought=true;
+        });
+      });
     });
     rs.bannedObservable.subscribe(a=>{
       this.banned=a; 
@@ -39,9 +40,9 @@ export class RatingComponent {
     });
     rs.clientObservable.subscribe(a=>this.client=a);
     rs.managerObservable.subscribe(a=>this.manager=a);
+    rs.emailObservable.subscribe(a=>this.email=a.replace(".","!"));
   }
-
-  ngOnInit():void{
+  ngOnInit(){
     let daneRef = this.db.list('ratings/'+String(this.id)).valueChanges();
     daneRef.subscribe((val:Array<any>)=>{
       this.count=val.reduce((prev,curr)=>{
@@ -49,11 +50,13 @@ export class RatingComponent {
         else return prev;
       },0);
       this.rating_list=val;
+      this.rating_list.forEach((a:any)=>{
+        if(a.email==this.email.replace("!","."))
+          this.reviewed=true;
+      });
     });
-    
   }
   clean():void{
-    this.title=this.description=this.nick="";
     this.date=undefined;
     this.new_rating=undefined;
     this.msg="";
@@ -64,15 +67,16 @@ export class RatingComponent {
       this.msg="Błędne dane!"
       return;
     }
-    const daneRef = this.db.object('ratings/'+String(this.id)+'/'+String(this.count+1));
+    const daneRef = this.db.object('ratings/'+String(this.id)+'/'+this.email);
+    let normal_email=this.email.replace("!",".");
     if(this.new_rating===undefined && this.date===undefined)
-      daneRef.set({ index: this.id, title: this.title,description: this.description,nick: this.nick});
+      daneRef.set({title: this.title,description: this.description,email:normal_email});
     else if(this.new_rating===undefined)
-      daneRef.set({ index: this.id, title: this.title,description: this.description,nick:this.nick,date:this.date});
+      daneRef.set({title: this.title,description: this.description, date:this.date ,email:normal_email});
     else if(this.date===undefined) 
-      daneRef.set({ index: this.id, title: this.title,description: this.description,rating: this.new_rating,nick:this.nick});
+      daneRef.set({ title: this.title,description: this.description,rating: this.new_rating ,email:normal_email});
     else
-    daneRef.set({ index: this.id, title: this.title,description: this.description,rating: this.new_rating,nick:this.nick, date:this.date});
+    daneRef.set({title: this.title,description: this.description,rating: this.new_rating, date:this.date ,email:normal_email});
 
     const daneRef1 = this.db.object('dishes/'+String(this.id));
     if(this.count===0 && this.new_rating){

@@ -1,16 +1,16 @@
 <h3>Opinie</h3>
 <div *ngFor="let rating of rating_list">
   <app-comment [new_rating]="rating.new_rating"
-  [nick]="rating.nick"
+  [nick]="rating.email"
   [title]="rating.title"
   [description]="rating.description"
   [date]="rating.date"
   [new_rating]="rating.rating">
   </app-comment>
 </div>
-<h3>Dodaj opinię. Obowiązkowe pola zaznaczone są gwiazdką (*)</h3>
+<h3 *ngIf="!reviewed && bought">Dodaj opinię. Obowiązkowe pola zaznaczone są gwiazdką (*)</h3>
 <h4>{{msg}}</h4>
-<form *ngIf="!banned">
+<form *ngIf="!banned && !reviewed && bought">
   <div style="display:flex;flex-direction: column;"class="form-group" style="width:100%">
     <div style="display:flex;margin-top: 10px;">
       <label for="nick">Tytuł*</label>
