@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
-import firebase from 'firebase/compat/app';
 import { Router } from '@angular/router';
 import { RolesService } from '../Services/roles.service';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
@@ -11,7 +9,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css']
 })
-export class LogInComponent {
+export class LogInComponent{
 
   email_input:string="";
   pwd_input:string="";
@@ -27,8 +25,9 @@ export class LogInComponent {
       this.rs.adminObservable.next(val.admin);
       this.rs.managerObservable.next(val.manager);
       this.rs.clientObservable.next(val.client);
+      this.rs.bannedObservable.next(val.banned);
       this.router.navigate(['/']);
-    });
+      });
     }).catch((a)=>{
       if (JSON.stringify(a).indexOf("auth/wrong-password")>=0)this.msg="Złe hasło.";
       else if (JSON.stringify(a).indexOf("auth/invalid-email")>=0)this.msg="Błędny email.";
