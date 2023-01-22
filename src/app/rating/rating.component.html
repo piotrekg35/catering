@@ -8,9 +8,9 @@
   [new_rating]="rating.rating">
   </app-comment>
 </div>
-<h3 *ngIf="!reviewed && bought">Dodaj opinię. Obowiązkowe pola zaznaczone są gwiazdką (*)</h3>
+<h3 *ngIf="!reviewed && bought || manager">Dodaj opinię. Obowiązkowe pola zaznaczone są gwiazdką (*)</h3>
 <h4>{{msg}}</h4>
-<form *ngIf="!banned && !reviewed && bought">
+<form *ngIf="!banned && !reviewed && bought || manager">
   <div style="display:flex;flex-direction: column;"class="form-group" style="width:100%">
     <div style="display:flex;margin-top: 10px;">
       <label for="nick">Tytuł*</label>

@@ -1,0 +1,43 @@
+{
+  "rules": {
+    "dishes":{
+      ".read": true,
+      "$dish_id":{
+        "max_amount":{
+          ".write": true
+        },
+        "rating":{
+          ".write": true
+        },
+        ".write": "root.child('users').child(auth.token.email.replace('.','!')).child('manager').val() === true"
+      },
+    },
+    "orders": {
+      "$email":{
+        ".write": "$email === auth.token.email.replace('.','!')"
+      },
+      ".read": true,
+      ".write": "root.child('users').child(auth.token.email.replace('.','!')).child('admin').val() === true"
+    },
+    "persistence": {
+      ".read": true,
+      ".write": "root.child('users').child(auth.token.email.replace('.','!')).child('admin').val() === true"
+    },
+    "ratings": {
+      ".read": true,
+      "$dish_id":{
+        "$email":{
+        ".write": "$email === auth.token.email.replace('.','!')"
+      	}
+      }
+    },
+    "users": {
+       "$email": {
+         ".read": "$email === auth.token.email.replace('.','!')",
+         ".write": "$email === auth.token.email.replace('.','!')"
+       },
+      ".read":"root.child('users').child(auth.token.email.replace('.','!')).child('admin').val() === true",
+      ".write":"root.child('users').child(auth.token.email.replace('.','!')).child('admin').val() === true"
+     }
+   }
+}

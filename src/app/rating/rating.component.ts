@@ -50,6 +50,7 @@ export class RatingComponent {
         else return prev;
       },0);
       this.rating_list=val;
+      if(this.rating_list.length==0)this.msg="Brak opinii";
       this.rating_list.forEach((a:any)=>{
         if(a.email==this.email.replace("!","."))
           this.reviewed=true;
