@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent {
-  @Input() new_rating:number=1;
+  @Input() new_rating?:number;
   @Input() nick?:string;
   @Input() title:string="";
   @Input() description:string="";

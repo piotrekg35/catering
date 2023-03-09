@@ -19,7 +19,7 @@ export class DishesComponent{
   filtered_rating:number=0;
   daneRef: Observable<any[]>;
   page:number=1;
-  elements_on_page:number=5;
+  elements_on_page:number=20;
 
   constructor(private db: AngularFireDatabase){
     this.daneRef = db.list('dishes').valueChanges();

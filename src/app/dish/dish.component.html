@@ -4,8 +4,8 @@
             <img [src]="photoLink" alt={{link_to_photos}} (click)="goToDetails()">
             <fa-icon [icon]="faChevronLeft" size="lg" class="left" (click)="prevImg()"></fa-icon>
             <fa-icon [icon]="faChevronRight" size="lg" class="right" (click)="nextImg()"></fa-icon>
-            <fa-icon [icon]="faTrash" size="lg" class="trash" (click)="deleteDish()"></fa-icon>
-            <div style="display: flex;justify-content: center;">
+            <fa-icon [icon]="faTrash" size="lg" class="trash" (click)="deleteDish()" *ngIf="manager"></fa-icon>
+            <div style="display: flex;justify-content: center;" *ngIf="client">
                 <fa-icon [icon]="faMinusCircle" size="lg" (click)="resign()" [ngStyle]="{'opacity': ordered==0 ?'0.5' : '1' }"></fa-icon>
                 <p style="margin:0px 10px 0px 10px ; font-size: large;">{{ordered}}</p>
                 <fa-icon [icon]="faPlusCircle" size="lg" (click)="order()" [ngStyle]="{'visibility': max_amount==0 ?'hidden' : 'visible' }"></fa-icon>

@@ -9,7 +9,7 @@ import { faChevronLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 export class PaginationComponent {
   faChevronLeft=faChevronLeft;
   faChevronRight=faChevronRight;
-  nr:number=5;
+  nr:number=20;
   idx:number=1;
   @Input() number_of_dishes:number=0;
   @Output() stronaEvent=new EventEmitter<Array<number>>();

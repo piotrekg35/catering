@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faChevronLeft, faChevronRight, faPlusCircle, faMinusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
 import { CartService, DishGeneral } from '../Services/cart.service';
 import { CurrencyService } from '../Services/currency.service';
+import { RolesService } from '../Services/roles.service';
 
 @Component({
   selector: 'app-dish',
@@ -32,20 +33,27 @@ export class DishComponent{
   photoIndex:number=0;
   photoLink:String="";
   ordered:number=0;
+  client:boolean=false;
+  manager:boolean=false;
 
-  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService){}
+  constructor(private db: AngularFireDatabase,private route:ActivatedRoute,private router:Router,private cs:CartService,public curr:CurrencyService, private rs:RolesService){}
   
   ngOnInit():void{
     this.photoLink=this.link_to_photos[this.photoIndex];
 
-    let d=this.cs.reserved.filter(a=>a.id===this.id);
+    this.cs.reservedObservable.subscribe(r=>{
+    let d=r.filter(a=>a.id===this.id);
     if(d.length===0)this.ordered=0;
     else{
-      let idx:number=this.cs.reserved.indexOf(d[0]);
-      this.ordered=this.cs.reserved[idx].ordered;
+      let idx:number=r.indexOf(d[0]);
+      this.ordered=r[idx].ordered;
     }
+  });
+  this.rs.clientObservable.subscribe(a=>this.client=a);
+  this.rs.managerObservable.subscribe(a=>this.manager=a);
   }
   goToDetails(){
+    if(!this.client && !this.manager)return;
     this.router.navigate(['/produkt', this.id]);
   }
   nextImg():void{
@@ -71,6 +79,7 @@ export class DishComponent{
       this.cs.reserved[idx].ordered=this.ordered;
       this.cs.reserved[idx].max_amount=this.max_amount;
     }
+    this.cs.reservedObservable.next(this.cs.reserved);
   }
   resign():void{
     if(this.ordered>0)
@@ -84,6 +93,7 @@ export class DishComponent{
       this.cs.reserved[idx].ordered=this.ordered;
       this.cs.reserved[idx].max_amount=this.max_amount;
       if(this.ordered===0)this.cs.reserved.splice(idx,1);
+      this.cs.reservedObservable.next(this.cs.reserved);
     }
   }
   deleteDish():void{
